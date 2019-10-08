@@ -24,33 +24,31 @@ test("should work on 4x4 arrays", () => {
     [21, 22, 23, 24, 25]
   ];
   const toExpect = [
-    [
-      1,
-      2,
-      3,
-      4,
-      5,
-      10,
-      15,
-      20,
-      25,
-      24,
-      23,
-      22,
-      21,
-      16,
-      11,
-      6,
-      7,
-      8,
-      9,
-      14,
-      19,
-      18,
-      17,
-      12,
-      13
-    ]
+    1,
+    2,
+    3,
+    4,
+    5,
+    10,
+    15,
+    20,
+    25,
+    24,
+    23,
+    22,
+    21,
+    16,
+    11,
+    6,
+    7,
+    8,
+    9,
+    14,
+    19,
+    18,
+    17,
+    12,
+    13
   ];
 
   expect(snail(toTest)).toEqual(toExpect);
@@ -105,12 +103,4 @@ test("should work on 5x5 arrays", () => {
   ];
 
   expect(snail(toTest)).toEqual(toExpect);
-});
-
-test("Should throw error on matrix with unsupported dimensions", () => {
-  const toTest = [[], [0], [0, 1], [0, 1, 2]];
-
-  expect(() => {
-    snail(toTest);
-  }).toThrow();
 });
