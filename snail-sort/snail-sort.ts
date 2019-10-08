@@ -15,39 +15,26 @@ function snailSort(matrix: Matrix): Array<number> {
 }
 
 function separateBorderFromMatrix(matrix: Matrix): [Array<number>, Matrix] {
-  let border: Array<number> = [];
-  let matrixWithoutBorder: Matrix = [...matrix];
+  return [snailCollectBorder(matrix), cutBorder(matrix)];
+}
 
-  // get first row
-  border = [...border, ...matrix[0]];
-  matrixWithoutBorder = matrixWithoutBorder.slice(1);
+function snailCollectBorder(matrix: Matrix): Array<number> {
+  const firstRow = matrix[0];
+  const lastRow = matrix[matrix.length - 1];
 
-  // get last column
-  border = [...border, ...matrixWithoutBorder.map(row => row[row.length - 1])];
-  matrixWithoutBorder = matrixWithoutBorder.map(row => {
-    return row.slice(0, row.length - 1);
-  });
+  const firstColumn = matrix.map(row => row[0]);
+  const lastColumn = matrix.map(row => row[row.length - 1]);
 
-  // get last row
-  const lastRow = [...matrixWithoutBorder][
-    matrixWithoutBorder.length - 1
-  ].reverse();
-  border = [...border, ...lastRow];
-  matrixWithoutBorder = matrixWithoutBorder.slice(
-    0,
-    matrixWithoutBorder.length - 1
-  );
+  return [
+    ...firstRow,
+    ...lastColumn.slice(1),
+    ...[...lastRow].reverse().slice(1),
+    ...[...firstColumn].reverse().slice(1, -1)
+  ];
+}
 
-  // get first column
-  if (matrixWithoutBorder.length === 0) return [border, matrixWithoutBorder];
-
-  const firstColumn = [...matrixWithoutBorder].reverse().map(row => row[0]);
-  border = [...border, ...firstColumn];
-  matrixWithoutBorder = matrixWithoutBorder.map(row => {
-    return row.slice(1);
-  });
-
-  return [border, matrixWithoutBorder];
+function cutBorder(matrix: Matrix): Matrix {
+  return matrix.slice(1, -1).map(row => row.slice(1, -1));
 }
 
 type Matrix = Array<Array<number>>;
