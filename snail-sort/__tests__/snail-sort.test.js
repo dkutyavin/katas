@@ -106,3 +106,11 @@ test("should work on 5x5 arrays", () => {
 
   expect(snail(toTest)).toEqual(toExpect);
 });
+
+test("Should throw error on matrix with unsupported dimensions", () => {
+  const toTest = [[], [0], [0, 1], [0, 1, 2]];
+
+  expect(() => {
+    snail(toTest);
+  }).toThrow();
+});
