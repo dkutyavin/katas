@@ -15,10 +15,10 @@ function snailSort(matrix: Matrix): Array<number> {
 }
 
 function separateBorderFromMatrix(matrix: Matrix): [Array<number>, Matrix] {
-  return [snailCollectBorder(matrix), cutBorder(matrix)];
+  return [getMatrixBorderClockwise(matrix), getMatrixWithoutBorder(matrix)];
 }
 
-function snailCollectBorder(matrix: Matrix): Array<number> {
+function getMatrixBorderClockwise(matrix: Matrix): Array<number> {
   const firstRow = matrix[0];
   const lastRow = matrix[matrix.length - 1];
 
@@ -33,7 +33,7 @@ function snailCollectBorder(matrix: Matrix): Array<number> {
   ];
 }
 
-function cutBorder(matrix: Matrix): Matrix {
+function getMatrixWithoutBorder(matrix: Matrix): Matrix {
   return matrix.slice(1, -1).map(row => row.slice(1, -1));
 }
 
