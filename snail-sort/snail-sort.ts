@@ -10,12 +10,9 @@ function snailSort(matrix: Matrix): Array<number> {
   if (matrix.length === 0) return [];
   if (matrix.length === 1) return matrix[0];
 
-  const [matrixBorder, matrixWithoutBorder] = separateBorderFromMatrix(matrix);
+  const matrixBorder = getMatrixBorderClockwise(matrix);
+  const matrixWithoutBorder = getMatrixWithoutBorder(matrix);
   return [...matrixBorder, ...snailSort(matrixWithoutBorder)];
-}
-
-function separateBorderFromMatrix(matrix: Matrix): [Array<number>, Matrix] {
-  return [getMatrixBorderClockwise(matrix), getMatrixWithoutBorder(matrix)];
 }
 
 function getMatrixBorderClockwise(matrix: Matrix): Array<number> {
