@@ -11,8 +11,27 @@
  */
 
 module.exports = (maze: string): boolean => {
+  /*
+  let checked = []
+  let toCheck = [START]
+  while (toCheck.length > 0) {
+    let testing = toCheck.pop()
+    let availablePositions = getAvaliablePositions(testing).filterOut(checked)
+    checked = [...checked, testing]
+    
+    if(END in availablePositions) return true
+
+    toCheck = [...toCheck, ...availablePositions]
+  }
+  */
+
+  return false;
+};
+
+/*
+function getAvailablePositions(position, maze)
   const EMPTY = ".";
   const WALL = "W";
 
-  return true;
-};
+  
+*/
