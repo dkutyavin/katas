@@ -3,10 +3,7 @@
  * from outermost elements to the middle element, traveling clockwise.
  * @see https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1/train/javascript
  */
-
-module.exports = snailSort;
-
-function snailSort(matrix: Matrix): Array<number> {
+export default function snailSort(matrix: Matrix): Array<number> {
   if (matrix.length === 0) return [];
   if (matrix.length === 1) return matrix[0];
 

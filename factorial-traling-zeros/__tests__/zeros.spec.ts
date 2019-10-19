@@ -1,4 +1,4 @@
-const zeros = require("../zeros");
+const { default: zeros } = require("../zeros");
 
 describe("factorial trailing zero testing", () => {
   describe("check N < 5", () => {
