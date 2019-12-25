@@ -14,22 +14,23 @@ module.exports = (mazeInput: string) => {
   const maze = new Maze(mazeInput);
 
   const checked: Array<Position> = [];
-  let toCheck: Array<Position> = [maze.ENTRANCE];
+  const toCheck: Array<Position> = [maze.ENTRANCE];
 
   while (toCheck.length > 0) {
-    const testing = toCheck.pop();
-    const neighbours = maze.neighbours(testing);
-    const paths = maze.nonBlockedPositions(neighbours);
+    const currentPosition = toCheck.pop();
 
-    if (paths.some(([x, y]) => x === maze.EXIT[0] && y === maze.EXIT[1]))
+    const notBlocked = maze
+      .neighbours(currentPosition)
+      .filter(position => maze.in(position) === ".");
+
+    if (notBlocked.find(position => isEqualPositions(position, maze.EXIT)))
       return true;
 
-    checked.push(testing);
-
+    checked.push(currentPosition);
     toCheck.push(
-      ...paths.filter(it => {
-        return !checked.some(([x, y]) => it[0] === x && it[1] === y);
-      })
+      ...notBlocked.filter(it =>
+        checked.every(position => !isEqualPositions(it, position))
+      )
     );
   }
   return false;
@@ -38,14 +39,21 @@ module.exports = (mazeInput: string) => {
 class Maze {
   maze: Array<Array<string>>;
   ENTRANCE: Position = [0, 0];
-  EXIT: Position;
 
   constructor(mazeInput: string) {
     const rows = mazeInput.split("\n");
-    const cells = rows.map(row => row.replace(/\s/g, "").split(""));
+    this.maze = rows.map(row => {
+      const cleanRow = row.replace(/\s/g, "");
+      return cleanRow.split("");
+    });
+  }
 
-    this.maze = cells;
-    this.EXIT = [this.maze.length - 1, this.maze.length - 1];
+  in([x, y]: Position) {
+    return this.maze[x][y];
+  }
+
+  get EXIT(): Position {
+    return [this.maze.length - 1, this.maze.length - 1];
   }
 
   neighbours([x, y]: Position) {
@@ -61,10 +69,9 @@ class Maze {
         x >= 0 && x < this.maze.length && y >= 0 && y < this.maze.length
     );
   }
-
-  nonBlockedPositions(positions: Position[]) {
-    return positions.filter(([x, y]) => this.maze[x][y] !== "W");
-  }
 }
+
+const isEqualPositions = (pos1: Position, pos2: Position) =>
+  pos1[0] === pos2[0] && pos1[1] === pos2[1];
 
 type Position = [number, number];
