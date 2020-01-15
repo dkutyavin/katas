@@ -4,13 +4,13 @@
  * @see https://www.codewars.com/kata/number-of-trailing-zeros-of-n/train/javascript
  */
 
-export const zeros = (n: number): number => {
-  const highestFivePower = n >= 5 ? Math.log(n) / Math.log(5) : 0;
-
+export const trailingZeros = (n: number): number => {
   let result = 0;
-  for (let i = 1; i <= highestFivePower; i++) {
-    result += Math.floor(n / 5 ** i);
+  for (let power = 1; power <= highestPower(5)(n); power++) {
+    result += Math.floor(n / 5 ** power);
   }
-
   return result;
 };
+
+const highestPower = base => x => (x >= base ? logN(base)(x) : 0);
+const logN = base => x => Math.log(x) / Math.log(base);
