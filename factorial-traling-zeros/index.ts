@@ -4,7 +4,7 @@
  * @see https://www.codewars.com/kata/number-of-trailing-zeros-of-n/train/javascript
  */
 
-export default function zeros(n: number): number {
+export const zeros = (n: number): number => {
   const highestFivePower = n >= 5 ? Math.log(n) / Math.log(5) : 0;
 
   let result = 0;
@@ -13,4 +13,4 @@ export default function zeros(n: number): number {
   }
 
   return result;
-}
+};
