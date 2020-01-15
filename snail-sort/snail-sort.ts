@@ -3,32 +3,31 @@
  * from outermost elements to the middle element, traveling clockwise.
  * @see https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1/train/javascript
  */
-export default function snailSort(matrix: Matrix): Array<number> {
+export const snailSort = (matrix: Matrix): Array<number> => {
   if (matrix.length === 0) return [];
-  if (matrix.length === 1) return matrix[0];
+  return [...borderClockwise(matrix), ...snailSort(removeBorder(matrix))];
+};
 
-  const matrixBorder = getMatrixBorderClockwise(matrix);
-  const matrixWithoutBorder = getMatrixWithoutBorder(matrix);
-  return [...matrixBorder, ...snailSort(matrixWithoutBorder)];
-}
+const borderClockwise = (matrix: Matrix): Array<number> => {
+  const { firstRow, lastColumn, lastRow, firstColumn } = borders(matrix);
 
-function getMatrixBorderClockwise(matrix: Matrix): Array<number> {
-  const firstRow = matrix[0];
-  const lastRow = matrix[matrix.length - 1];
+  return firstRow.concat(
+    lastColumn.slice(1),
+    lastRow.reverse().slice(1),
+    firstColumn.reverse().slice(1, -1)
+  );
+};
 
-  const firstColumn = matrix.map(row => row[0]);
-  const lastColumn = matrix.map(row => row[row.length - 1]);
+const borders = (matrix: Matrix) => ({
+  firstRow: matrix[0],
+  lastRow: matrix[matrix.length - 1],
+  firstColumn: matrix.map(row => row[0]),
+  lastColumn: matrix.map(row => row[row.length - 1]),
+});
 
-  return [
-    ...firstRow,
-    ...lastColumn.slice(1),
-    ...[...lastRow].reverse().slice(1),
-    ...[...firstColumn].reverse().slice(1, -1)
-  ];
-}
+const removeBorder = (matrix: Matrix): Matrix =>
+  removeEdges(matrix).map(row => removeEdges(row));
 
-function getMatrixWithoutBorder(matrix: Matrix): Matrix {
-  return matrix.slice(1, -1).map(row => row.slice(1, -1));
-}
+const removeEdges = (array: Array<any>) => array.slice(1, -1);
 
 type Matrix = Array<Array<number>>;
