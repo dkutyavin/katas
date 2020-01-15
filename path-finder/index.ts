@@ -10,7 +10,7 @@
     ...`
     */
 
-module.exports = (mazeInput: string) => {
+export const pathFinder = (mazeInput: string) => {
   const maze = new Maze(mazeInput);
 
   const checked: Array<Position> = [];
