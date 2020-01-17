@@ -1,4 +1,4 @@
-const { snailSort } = require("../snail-sort");
+const { snailSort } = require("../src/snail-sort/snail-sort");
 
 describe("snail sort testing", () => {
   it("On empty array snail should not moving", () => {
