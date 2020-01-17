@@ -47,3 +47,10 @@ jobs:
 
       - store_artifacts:
           path: coverage
+
+workflows:
+  version: 2
+  push:
+    jobs:
+      - build
+      - test
