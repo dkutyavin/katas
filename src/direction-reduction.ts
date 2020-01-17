@@ -5,41 +5,35 @@
 
 export const dirReduc = (directions: Directions): Directions => {
   let result = [...directions];
-
   while (!simplified(result)) result = simplify(result);
-
   return result;
 };
 
 export const simplify = (aPath: Directions): Directions => {
   const result = [];
-  for (let i = 0, j = 1; i < aPath.length; i++, j++) {
-    if (!isOpposite(aPath[i], aPath[j])) {
-      result.push(aPath[i]);
-    } else {
-      i++;
-      j++;
-    }
+  for (let i = 0; i < aPath.length; i++) {
+    if (!isOpposite(aPath[i], aPath[i + 1])) result.push(aPath[i]);
+    else i++;
   }
   return result;
 };
 
 export const simplified = (aPath: Directions): boolean => {
-  for (let i = 0, j = 1; j < aPath.length; i++, j++) {
-    if (isOpposite(aPath[i], aPath[j])) return false;
+  for (let i = 0; i < aPath.length; i++) {
+    if (isOpposite(aPath[i], aPath[i + 1])) return false;
   }
   return true;
 };
 
 const isOpposite = (dir1: Direction, dir2: Direction) => {
-  const opposites: Record<Direction, Direction> = {
-    EAST: "WEST",
-    WEST: "EAST",
-    NORTH: "SOUTH",
-    SOUTH: "NORTH",
-  };
-
   return dir2 === opposites[dir1];
+};
+
+const opposites: Record<Direction, Direction> = {
+  EAST: "WEST",
+  WEST: "EAST",
+  NORTH: "SOUTH",
+  SOUTH: "NORTH",
 };
 
 type Directions = Array<Direction>;
