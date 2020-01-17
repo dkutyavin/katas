@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.2
+
 jobs:
   build:
     docker:
@@ -43,14 +44,6 @@ jobs:
           name: "Run Jest and Collect Coverage Reports"
           command: yarn coverage
 
-      - store_artifacts:
-          path: coverage
-
-  coverage:
-    docker:
-      - image: circleci/node:10.0-browsers
-
-    steps:
       - codecov/upload:
           file: coverage
 
@@ -62,6 +55,3 @@ workflows:
       - test:
           requires:
             - build
-      - coverage:
-          requires:
-            - test
