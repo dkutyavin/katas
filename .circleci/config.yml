@@ -26,24 +26,24 @@ jobs:
 
   test:
     docker:
-      docker:
-        - image: circleci/node:10.0-browsers
-      steps:
-        - checkout
-        - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+      - image: circleci/node:10.0-browsers
 
-        - run: yarn --ignore-engines
-        - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+    steps:
+      - checkout
+      - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
 
-        - run:
-            name: "Run Jest and Collect Coverage Reports"
-            command: yarn coverage
+      - run: yarn --ignore-engines
+      - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
 
-        - store_artifacts:
-            path: coverage
+      - run:
+          name: "Run Jest and Collect Coverage Reports"
+          command: yarn coverage
+
+      - store_artifacts:
+          path: coverage
