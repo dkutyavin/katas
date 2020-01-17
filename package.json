@@ -15,6 +15,9 @@
     "typescript": "^3.7.4"
   },
   "scripts": {
+    "start": "jest --watch",
+    "build": "tsc -p tsconfig.json",
+    "coverage": "jest --coverage",
     "test": "jest"
   },
   "dependencies": {
