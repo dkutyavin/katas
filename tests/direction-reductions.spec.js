@@ -1,8 +1,4 @@
-const {
-  dirReduc,
-  simplify,
-  simplified,
-} = require("../src/direction-reduction");
+const { dirReduc } = require("../src/direction-reduction");
 
 describe("Direction Reduction", () => {
   describe("Basic specs", () => {
@@ -58,54 +54,6 @@ describe("Direction Reduction", () => {
 
       // Assert
       expect(path).toEqual([]);
-    });
-  });
-
-  describe("Simplified predicate", () => {
-    it("Should return true on empty array", () => {
-      expect(simplified([])).toBe(true);
-    });
-
-    it("Shoult return false on array with two opposite directions", () => {
-      expect(simplified(["EAST", "WEST"])).toBe(false);
-    });
-
-    it("Should be true", () => {
-      const noDirectlyOpposites = ["EAST", "NORTH", "WEST", "SOUTH"];
-      expect(simplified(noDirectlyOpposites)).toBe(true);
-    });
-
-    it("Should be false", () => {
-      const toTest = ["EAST", "NORTH", "WEST", "EAST", "SOUTH"];
-      expect(simplified(toTest)).toBe(false);
-    });
-  });
-
-  describe("Simplify helper", () => {
-    it("Should return empty array on empty array", () => {
-      expect(simplify([])).toEqual([]);
-    });
-
-    it("When given an array of the same directions, should return it back", () => {
-      const toTest = Array(100).fill("WEST");
-      expect(simplify(toTest)).toEqual(toTest);
-    });
-
-    it("Should simplify array of two opposite directions to empty", () => {
-      expect(simplify(["EAST", "WEST"])).toEqual([]);
-    });
-
-    it("Should simplify opposite directions, divided by another opposites, to empty with two iterations", () => {
-      // Arrange
-      const toTest = ["EAST", "NORTH", "SOUTH", "WEST"];
-
-      // Act
-      const firstStep = simplify(toTest);
-      const secondStep = simplify(firstStep);
-
-      // Assert
-      expect(simplify(toTest)).toEqual(["EAST", "WEST"]);
-      expect(simplify(firstStep)).toEqual([]);
     });
   });
 });

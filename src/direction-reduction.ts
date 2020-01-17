@@ -9,7 +9,7 @@ export const dirReduc = (directions: Directions): Directions => {
   return result;
 };
 
-export const simplify = (aPath: Directions): Directions => {
+const simplify = (aPath: Directions): Directions => {
   const result = [];
   for (let i = 0; i < aPath.length; i++) {
     if (!isOpposite(aPath[i], aPath[i + 1])) result.push(aPath[i]);
@@ -18,7 +18,7 @@ export const simplify = (aPath: Directions): Directions => {
   return result;
 };
 
-export const simplified = (aPath: Directions): boolean => {
+const simplified = (aPath: Directions): boolean => {
   for (let i = 0; i < aPath.length; i++) {
     if (isOpposite(aPath[i], aPath[i + 1])) return false;
   }
