@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  codecov: codecov/codecov@1.0.2
+  codecov: codecov/codecov@1.0.5
 
 jobs:
   build:
@@ -44,8 +44,7 @@ jobs:
           name: "Run Jest and Collect Coverage Reports"
           command: yarn coverage
 
-      - codecov/upload:
-          file: coverage
+      - codecov/upload
 
 workflows:
   version: 2
