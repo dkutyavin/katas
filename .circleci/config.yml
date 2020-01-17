@@ -15,9 +15,35 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
+
       - run: yarn --ignore-engines
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
       - run: yarn build
+
+  test:
+    docker:
+      docker:
+        - image: circleci/node:10.0-browsers
+      steps:
+        - checkout
+        - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+        - run: yarn --ignore-engines
+        - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+        - run:
+            name: "Run Jest and Collect Coverage Reports"
+            command: yarn coverage
+
+        - store_artifacts:
+            path: coverage
