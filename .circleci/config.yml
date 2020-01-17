@@ -51,6 +51,9 @@ jobs:
           path: coverage
 
   coverage:
+    docker:
+      - image: circleci/node:10.0-browsers
+
     steps:
       - codecov/upload:
         file: coverage
