@@ -90,5 +90,22 @@ describe("Direction Reduction", () => {
       const toTest = Array(100).fill("WEST");
       expect(simplify(toTest)).toEqual(toTest);
     });
+
+    it("Should simplify array of two opposite directions to empty", () => {
+      expect(simplify(["EAST", "WEST"])).toEqual([]);
+    });
+
+    it("Should simplify opposite directions, divided by another opposites, to empty with two iterations", () => {
+      // Arrange
+      const toTest = ["EAST", "NORTH", "SOUTH", "WEST"];
+
+      // Act
+      const firstStep = simplify(toTest);
+      const secondStep = simplify(firstStep);
+
+      // Assert
+      expect(simplify(toTest)).toEqual(["EAST", "WEST"]);
+      expect(simplify(firstStep)).toEqual([]);
+    });
   });
 });
