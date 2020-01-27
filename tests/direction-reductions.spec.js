@@ -2,20 +2,20 @@ const { dirReduc } = require("../src/direction-reduction");
 
 describe("Direction Reduction", () => {
   describe("Basic specs", () => {
-    it("When direction array is empty, should return empty array", () => {
+    test("When direction array is empty, should return empty array", () => {
       expect(dirReduc([])).toEqual([]);
     });
 
-    it("When there are simplified directions, should return given array", () => {
+    test("When there are simplified directions, should return given array", () => {
       const noDirectlyOpposites = ["EAST", "NORTH", "WEST", "SOUTH"];
       expect(dirReduc(noDirectlyOpposites)).toEqual(noDirectlyOpposites);
     });
 
-    it("When there are only two opposite directions, should return empty array", () => {
+    test("When there are only two opposite directions, should return empty array", () => {
       expect(dirReduc(["EAST", "WEST"])).toEqual([]);
     });
 
-    it(
+    test(
       "When there are two opposite directions" +
         "divided by another two opposite directions," +
         "should return empty array",
@@ -26,7 +26,7 @@ describe("Direction Reduction", () => {
   });
 
   describe("Additional checks", () => {
-    it("", () => {
+    test("", () => {
       // Arrange
       const toTest = [
         "NORTH",
@@ -45,7 +45,7 @@ describe("Direction Reduction", () => {
       expect(path).toEqual(["WEST"]);
     });
 
-    it("", () => {
+    test("", () => {
       // Arrange
       const toTest = ["NORTH", "SOUTH", "EAST", "WEST", "EAST", "WEST"];
 

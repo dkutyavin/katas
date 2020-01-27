@@ -1,17 +1,17 @@
 const { snailSort } = require("../src/snail-sort");
 
 describe("snail sort testing", () => {
-  it("On empty array snail should not moving", () => {
+  test("On empty array snail should not moving", () => {
     const toTest = [[]];
     expect(snailSort(toTest)).toEqual([]);
   });
 
-  it("should stay on init position in one-value array", () => {
+  test("should stay on init position in one-value array", () => {
     const toTest = [[1]];
     expect(snailSort(toTest)).toEqual([1]);
   });
 
-  it("should work on 3x3 arrays", () => {
+  test("should work on 3x3 arrays", () => {
     const toTest = [
       [1, 2, 3],
       [4, 5, 6],
@@ -22,7 +22,7 @@ describe("snail sort testing", () => {
     expect(snailSort(toTest)).toEqual(toExpect);
   });
 
-  it("should work on 4x4 arrays", () => {
+  test("should work on 4x4 arrays", () => {
     const toTest = [
       [1, 2, 3, 4, 5],
       [6, 7, 8, 9, 10],
@@ -61,7 +61,7 @@ describe("snail sort testing", () => {
     expect(snailSort(toTest)).toEqual(toExpect);
   });
 
-  it("should work on 5x5 arrays", () => {
+  test("should work on 5x5 arrays", () => {
     const toTest = [
       [1, 2, 3, 4, 5, 6],
       [20, 21, 22, 23, 24, 7],

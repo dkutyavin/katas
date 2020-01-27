@@ -1,7 +1,7 @@
 const { pathFinder } = require("../src/path-finder");
 
 describe("Tesint path finder", () => {
-  it("should be true", () => {
+  test("should be true", () => {
     const maze = `.W.
                   .W.
                   ...`;
@@ -9,7 +9,7 @@ describe("Tesint path finder", () => {
     expect(pathFinder(maze)).toBe(true);
   });
 
-  it("should be false on blocked maze", () => {
+  test("should be false on blocked maze", () => {
     const maze = `.W.
                   .W.
                   W..`;
@@ -17,7 +17,7 @@ describe("Tesint path finder", () => {
     expect(pathFinder(maze)).toBe(false);
   });
 
-  it("should be true on empty maze", () => {
+  test("should be true on empty maze", () => {
     const maze = `......
                   ......
                   ......
@@ -28,7 +28,7 @@ describe("Tesint path finder", () => {
     expect(pathFinder(maze)).toBe(true);
   });
 
-  it("should be false on maze with blocked exit", () => {
+  test("should be false on maze with blocked exit", () => {
     const maze = `......
                   ......
                   ......
