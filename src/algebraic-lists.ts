@@ -3,9 +3,8 @@
  *
  */
 export class Cons<T = unknown> {
-  static fromArray<T = unknown>([head, ...tail]: T[]): Cons<T> {
-    if (tail.length > 0) return new Cons(head, this.fromArray(tail))
-    return new Cons(head, null)
+  static fromArray<T = unknown>(arr: T[]): Cons<T> {
+    return arr.reduceRight<Cons<T>>((result, it) => new Cons(it, result), null)
   }
 
   constructor(public head: T, public tail: Cons<T> | null) {
@@ -13,36 +12,16 @@ export class Cons<T = unknown> {
     this.tail = tail
   }
 
-  toArray(): T[] {
-    return consToArray(this)
+  toArray = (): T[] => {
+    if (!this.tail) return [this.head]
+    return [this.head, ...this.tail.toArray()]
   }
 
-  filter(predicate: (value: T) => boolean) {
-    return filterCons<T>(predicate)(this)
+  filter = (predicate: (value: T) => boolean): Cons<T> => {
+    const tail = this.tail && this.tail.filter(predicate)
+    return predicate(this.head) ? new Cons(this.head, tail) : tail
   }
 
-  map<R = T>(fn: (value: T) => R): Cons<R> {
-    return mapCons<T, R>(fn)(this)
-  }
-}
-
-const consToArray = <T = unknown>(list: Cons<T>) => {
-  if (!list) return []
-  return [list.head, ...consToArray(list.tail)]
-}
-
-const filterCons = <T = unknown>(condition: (val: T) => boolean) => (
-  list: Cons<T> | null
-): Cons<T> => {
-  if (!list) return null
-  const { head, tail } = list
-  const filter = filterCons(condition)
-
-  if (!condition(head)) return filter(tail)
-  return new Cons(list.head, filter(tail))
-}
-
-const mapCons = <T = unknown, R = T>(fn: (val: T) => R) => (list: Cons<T>) => {
-  if (!list) return null
-  return new Cons(fn(list.head), mapCons(fn)(list.tail))
+  map = <R = T>(mapper: (value: T) => R): Cons<R> =>
+    new Cons<R>(mapper(this.head), this.tail && this.tail.map<R>(mapper))
 }
