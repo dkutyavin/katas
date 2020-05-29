@@ -1,4 +1,4 @@
-const { dirReduc } = require("../src/direction-reduction");
+const { dirReduc } = require(".");
 
 describe("Direction Reduction", () => {
   describe("Basic specs", () => {

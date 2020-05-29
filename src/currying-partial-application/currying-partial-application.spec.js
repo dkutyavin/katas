@@ -1,4 +1,4 @@
-const { curryPartial: curryingPartial } = require('../src/currying-partial-application')
+const { curryPartial: curryingPartial } = require('.')
 
 describe('Currying and partial application', () => {
   describe('Curried sum of three params', () => {

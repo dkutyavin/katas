@@ -1,4 +1,4 @@
-const { Cons } = require('../src/algebraic-lists')
+const { Cons } = require('.')
 
 describe('Algebraic Lists', () => {
   test('Cons[1, 2, 3, 4, 5] toArray should return [1, 2, 3, 4, 5]', () => {

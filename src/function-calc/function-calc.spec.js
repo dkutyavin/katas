@@ -12,7 +12,7 @@ const {
   minus,
   times,
   dividedBy,
-} = require("../src/function-calc");
+} = require(".");
 
 describe("Calculating with Functions ", () => {
   test("Seven times five should be 35", () =>
