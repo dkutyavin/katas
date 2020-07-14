@@ -52,4 +52,9 @@ describe('Algebraic Lists', () => {
 
     expect(list.fold(getBiggest, 0)).toBe(biggest)
   })
+
+  test('Should return correct list', () => {
+    const testData = [0, 1, 2, 3, 4, 5]
+    expect(Cons.list(...testData).toArray()).toEqual(testData)
+  })
 })

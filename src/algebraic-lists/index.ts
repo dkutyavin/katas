@@ -7,6 +7,13 @@ export class Cons<T = unknown> {
     return arr.reduceRight<Cons<T>>((result, it) => new Cons(it, result), null)
   }
 
+  static list<T>(...args: T[]): Cons<T> {
+    if (args.length === 0) return null
+
+    const [head, ...tail] = args
+    return new Cons(head, Cons.list<T>(...tail))
+  }
+
   constructor(public head: T, public tail: Cons<T> | null) {
     this.head = head
     this.tail = tail
