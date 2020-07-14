@@ -15,17 +15,13 @@ describe('Algebraic Lists', () => {
   })
 
   test('Should filter out all odd numbers', () => {
-    const predicate = n => n % 2 === 1
+    const predicate = (n) => n % 2 === 1
     const testData = Array(100)
       .fill(0)
       .map((_, index) => index)
     const expectedData = testData.filter(predicate)
 
-    expect(
-      Cons.fromArray(testData)
-        .filter(predicate)
-        .toArray()
-    ).toEqual(expectedData)
+    expect(Cons.fromArray(testData).filter(predicate).toArray()).toEqual(expectedData)
   })
 
   test('Should return doubled numbers', () => {
@@ -34,8 +30,26 @@ describe('Algebraic Lists', () => {
 
     expect(
       Cons.fromArray(numbers)
-        .map(it => it * 2)
+        .map((it) => it * 2)
         .toArray()
     ).toEqual(expected)
+  })
+
+  test('Should return sum of list', () => {
+    const list = new Cons(0, new Cons(1, new Cons(2, new Cons(3, new Cons(4, new Cons(5, null))))))
+    const sum = (acc, sum) => acc + sum
+
+    expect(list.fold(sum, 0)).toBe(15)
+  })
+
+  test('Should return the biggest value', () => {
+    const biggest = 100
+    const list = new Cons(
+      0,
+      new Cons(1, new Cons(2, new Cons(biggest, new Cons(3, new Cons(4, new Cons(5, null))))))
+    )
+    const getBiggest = (acc, x) => (acc > x ? acc : x)
+
+    expect(list.fold(getBiggest, 0)).toBe(biggest)
   })
 })

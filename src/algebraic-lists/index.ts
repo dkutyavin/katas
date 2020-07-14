@@ -24,4 +24,11 @@ export class Cons<T = unknown> {
 
   map = <R = T>(mapper: (value: T) => R): Cons<R> =>
     new Cons<R>(mapper(this.head), this.tail && this.tail.map<R>(mapper))
+
+  fold = <R>(f: (acc: R, x: T) => R, acc: R) => {
+    const next = f(acc, this.head)
+
+    if (this.tail === null) return next
+    return this.tail.fold(f, next)
+  }
 }
