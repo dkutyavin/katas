@@ -8,10 +8,7 @@ export class Cons<T = unknown> {
   }
 
   static list<T>(...args: T[]): Cons<T> {
-    if (args.length === 0) return null
-
-    const [head, ...tail] = args
-    return new Cons(head, Cons.list<T>(...tail))
+    return Cons.fromArray(args)
   }
 
   constructor(public head: T, public tail: Cons<T> | null) {
