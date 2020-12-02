@@ -163,5 +163,61 @@ describe('Undo Redo', () => {
       expect(proxy.get('pet')).toBe('cat')
       expect(proxy.get('debt')).not.toBeDefined()
     })
+
+    test('extra test for delete key', () => {
+      const target = { x: 1, y: 2 }
+      const proxy = undoRedo(target)
+
+      proxy.del('x')
+      expect(proxy.get('x')).not.toBeDefined()
+      expect(target).not.toHaveProperty('x')
+
+      proxy.undo()
+      expect(proxy.get('x')).toBe(1)
+      expect(target).toHaveProperty('x')
+
+      proxy.redo()
+      expect(proxy.get('x')).not.toBeDefined()
+      expect(target).not.toHaveProperty('x')
+    })
+
+    test('Undo created fields', () => {
+      const target = { x: 1 }
+      const proxy = undoRedo(target)
+
+      proxy.set('y', 6)
+      proxy.undo()
+
+      expect(proxy.get('y')).not.toBeDefined()
+      expect(target).not.toHaveProperty('y')
+    })
+
+    test('should drop unused redos if new commands appears afters some undo', () => {
+      const target = {}
+      const proxy = undoRedo(target)
+
+      // setting vars
+      proxy.set('x', 1)
+      proxy.set('y', 2)
+      proxy.set('z', 3)
+
+      // make some changes
+      proxy.set('z', 30)
+      proxy.del('z')
+
+      // return initial vars - x=1, y=2, z=3
+      proxy.undo()
+      proxy.undo()
+
+      // reassign z
+      proxy.set('z', 4)
+
+      proxy.undo() // return z to 3
+      proxy.undo() // undo z creation
+      proxy.undo() // undo y creation
+      proxy.undo() // undo x creation
+
+      expect(() => proxy.undo()).toThrow()
+    })
   })
 })

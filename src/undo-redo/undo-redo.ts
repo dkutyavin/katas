@@ -1,51 +1,106 @@
 export function undoRedo(target: Record<string | number, any>) {
-  const actions: Action[] = []
-  let position: number
+  const history = createHistory<Action>()
 
-  const mutate = (payload: ActionRecord, mutationCallback: () => any) => {
-    actions.push({ ...payload, prevValue: target[payload.key] })
-    position = actions.length - 1
-    mutationCallback()
+  const set = (key: string | number, value: any) => {
+    const action = { key, value, prevValue: target[key] } as Action
+    action.type = target.hasOwnProperty(key) ? 'modify' : 'create'
+    history.push(action)
+
+    target[key] = value
+  }
+
+  const del = (key: string | number) => {
+    const action: Action = { type: 'delete', key, prevValue: target[key] }
+    history.push(action)
+
+    delete target[key]
+  }
+
+  const undo = () => {
+    const { type, key, prevValue } = history.back()
+
+    switch (type) {
+      case 'create':
+        delete target[key]
+        break
+      case 'modify':
+        target[key] = prevValue
+        break
+      case 'delete':
+        target[key] = prevValue
+        break
+      default:
+        throw new Error(`unknown action type: ${type}`)
+    }
+  }
+
+  const redo = () => {
+    const { key, value, type } = history.next()
+
+    switch (type) {
+      case 'create':
+        target[key] = value
+        break
+      case 'modify':
+        target[key] = value
+        break
+      case 'delete':
+        delete target[key]
+        break
+      default:
+        throw new Error(`unknown action type: ${type}`)
+    }
   }
 
   return {
-    set: (key: string | number, value: any) => {
-      mutate({ key, value }, () => {
-        target[key] = value
-      })
-    },
     get: (key: string | number) => target[key],
-    del: (key: string | number) => {
-      mutate({ key }, () => {
-        delete target[key]
-      })
-    },
+    set,
+    del,
+    undo,
+    redo,
+  }
+}
 
-    undo: () => {
-      if (typeof position !== 'number' || position < 0) {
-        throw new RangeError('There is nothing to undo')
-      }
+function createHistory<T = unknown>() {
+  const history: T[] = []
+  let position = -1
 
-      const { key, prevValue } = actions[position]
-      target[key] = prevValue
-      position--
-    },
-    redo: () => {
-      if (typeof position !== 'number' || position >= actions.length) {
-        throw new RangeError('There is nothing to redo')
-      }
+  const canNext = () => position <= history.length - 2
+  const canBack = () => position >= 0
 
-      position++
-      const { key, value } = actions[position]
-      target[key] = value
+  const next = () => {
+    if (!canNext) throw new RangeError()
+
+    position = position + 1
+    const action = history[position]
+    return action
+  }
+
+  const back = () => {
+    if (!canBack()) throw new RangeError()
+
+    const action = history[position]
+    position = position - 1
+    return action
+  }
+
+  return {
+    push: (action: T) => {
+      history.splice(position + 1)
+      history.push(action)
+      position = history.length - 1
     },
+    canNext,
+    next,
+    back,
   }
 }
 
 type Action = {
+  type: ActionType
   key: string | number
   prevValue: any
   value?: any
 }
 
-type ActionRecord = { key: string | number; value?: any }
+type ActionType = 'create' | 'modify' | 'delete'
